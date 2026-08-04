@@ -37,7 +37,6 @@ async function getAccessToken() {
 }
 
 getAccessToken().then(
-  (token) => console.log("Spotify access token obtained", token),
   (err) => console.error("Failed to obtain Spotify access token", err)
 );
 
