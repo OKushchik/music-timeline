@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors, rectIntersection } from '@dnd-kit/core';
+import { DndContext, DragOverlay, rectIntersection } from '@dnd-kit/core';
 import { useSocket } from '../hooks/useSocket';
 import { useGame } from '../hooks/useGame';
+import { useGameDndSensors } from '../hooks/useGameDndSensors';
 import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
 import { useGameStore } from '../store/gameStore';
 import { EVENTS } from '../utils/socketEvents';
@@ -81,9 +82,7 @@ export default function GamePage() {
     setAnswered(false);
   }, [currentSong?._id]);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
-  );
+  const sensors = useGameDndSensors();
 
   const handleDragStart = () => setIsDragging(true);
 
@@ -153,7 +152,9 @@ export default function GamePage() {
             onDragCancel={handleDragCancel}
           >
             <div className="flex flex-col items-center gap-2">
-              <p className="text-gray-400 text-sm">Drag this card into your timeline:</p>
+              <p className="text-gray-400 text-sm">
+                Hold, then drag this card into your timeline:
+              </p>
               <SongCard song={currentSong} isDragging={isDragging} />
             </div>
 

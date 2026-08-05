@@ -1,11 +1,6 @@
 import { useState, useCallback } from 'react';
-import {
-  DndContext,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  closestCenter,
-} from '@dnd-kit/core';
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import { useGameDndSensors } from './useGameDndSensors';
 
 /**
  * Encapsulates DnD-kit setup for the timeline.
@@ -17,9 +12,7 @@ import {
 export const useDragAndDrop = (onDrop) => {
   const [activeId, setActiveId] = useState(null);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
-  );
+  const sensors = useGameDndSensors();
 
   const handleDragStart = useCallback(({ active }) => {
     setActiveId(active.id);

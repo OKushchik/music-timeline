@@ -19,7 +19,9 @@ export default function SongCard({ song, isDragging = false, overlay = false }) 
       ref={overlay ? undefined : setNodeRef}
       {...(overlay ? {} : listeners)}
       {...(overlay ? {} : attributes)}
-      style={{ touchAction: 'none' }}
+      // Allow page scroll until drag activates (long-press on mobile).
+      // Lock touch scrolling only while the card is actively being dragged.
+      style={{ touchAction: isDragging || overlay ? 'none' : 'manipulation' }}
       className={`
         bg-gradient-to-br from-primary to-card border-2 rounded-xl p-4
         cursor-grab active:cursor-grabbing select-none w-30 shadow-lg
