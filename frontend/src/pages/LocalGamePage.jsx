@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors, rectIntersection } from '@dnd-kit/core';
 import { useLocalGameStore } from '../store/localGameStore';
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
 import { localSongApi } from '../api/localSongApi';
 import AudioPlayer from '../components/game/AudioPlayer';
 import SongCard from '../components/game/SongCard';
@@ -35,6 +36,7 @@ export default function LocalGamePage() {
 
   // ── DnD setup (hooks must be before any conditional return) ──────────────
   const [isDragging, setIsDragging] = useState(false);
+  useLockBodyScroll(isDragging);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
   );
@@ -43,6 +45,7 @@ export default function LocalGamePage() {
     setIsDragging(false);
     if (over) submitPlacement(parseInt(over.id, 10));
   };
+  const handleDragCancel = () => setIsDragging(false);
 
   // Guard: if no game set up, go to setup
   useEffect(() => {
@@ -128,6 +131,7 @@ export default function LocalGamePage() {
             collisionDetection={rectIntersection}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
           >
             <div className="flex flex-col items-center gap-2">
               <p className="text-gray-400 text-sm">Drag this card into your timeline:</p>

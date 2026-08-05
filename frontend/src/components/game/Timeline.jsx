@@ -13,6 +13,7 @@ export default function Timeline({ timeline }) {
   return (
     <div className="w-full min-w-0">
       <div
+        data-scroll-lock-exempt
         className="
           timeline-scroll
           flex flex-nowrap items-center gap-1

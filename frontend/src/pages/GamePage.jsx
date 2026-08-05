@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors, rectIntersection } from '@dnd-kit/core';
 import { useSocket } from '../hooks/useSocket';
 import { useGame } from '../hooks/useGame';
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll';
 import { useGameStore } from '../store/gameStore';
 import { EVENTS } from '../utils/socketEvents';
 import AudioPlayer from '../components/game/AudioPlayer';
@@ -53,6 +54,7 @@ export default function GamePage() {
 
   const [isDragging, setIsDragging] = useState(false);
   const [answered, setAnswered] = useState(false);
+  useLockBodyScroll(isDragging);
 
   const leaveRoom = () => {
     emit(EVENTS.LEAVE_ROOM, { roomCode });
@@ -91,6 +93,8 @@ export default function GamePage() {
       handleDrop(currentSong, parseInt(over.id, 10));
     }
   };
+
+  const handleDragCancel = () => setIsDragging(false);
 
   const headerBar = (
     <div className="flex items-center justify-between mb-6 gap-3">
@@ -146,6 +150,7 @@ export default function GamePage() {
             collisionDetection={rectIntersection}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
           >
             <div className="flex flex-col items-center gap-2">
               <p className="text-gray-400 text-sm">Drag this card into your timeline:</p>
