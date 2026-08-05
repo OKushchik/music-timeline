@@ -93,31 +93,32 @@ export default function WaitingRoom({ room: initialRoom, onLeave }) {
         <Button variant={isReady ? 'secondary' : 'ghost'} fullWidth onClick={toggleReady}>
           {isReady ? '✅ Ready!' : 'Mark Ready'}
         </Button>
-        {isHost && (
-          <Button
-            fullWidth
-            onClick={startGame}
-            disabled={!canStart}
-            title={
-              !hasEnoughPlayers
-                ? 'Need at least 2 players to start'
-                : !isReady
-                  ? 'You must be ready before starting'
-                  : ''
-            }
-          >
-            {!hasEnoughPlayers
-              ? '🔒 Waiting for players (2+)'
-              : isReady
-                ? '🚀 Start Game'
-                : '🔒 Mark yourself ready first'}
-          </Button>
-        )}
+        <Button variant="danger" fullWidth onClick={leaveRoom}>
+          Leave Room
+        </Button>
       </div>
 
-      <Button variant="danger" fullWidth className="mt-3" onClick={leaveRoom}>
-        Leave Room
-      </Button>
+      {isHost && (
+        <Button
+          fullWidth
+          className="mt-3"
+          onClick={startGame}
+          disabled={!canStart}
+          title={
+            !hasEnoughPlayers
+              ? 'Need at least 2 players to start'
+              : !isReady
+                ? 'You must be ready before starting'
+                : ''
+          }
+        >
+          {!hasEnoughPlayers
+            ? '🔒 Waiting for players (2+)'
+            : isReady
+              ? '🚀 Start Game'
+              : '🔒 Mark yourself ready first'}
+        </Button>
+      )}
     </div>
   );
 }

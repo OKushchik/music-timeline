@@ -22,23 +22,17 @@ export default function SongCard({ song, isDragging = false, overlay = false }) 
       style={{ touchAction: 'none' }}
       className={`
         bg-gradient-to-br from-primary to-card border-2 rounded-xl p-4
-        cursor-grab active:cursor-grabbing select-none w-48 shadow-lg
+        cursor-grab active:cursor-grabbing select-none w-30 shadow-lg
         transition-opacity duration-150
         ${isDragging ? 'opacity-40 border-primary' : 'border-transparent'}
         ${overlay ? 'rotate-2 shadow-2xl cursor-grabbing' : ''}
       `}
     >
-      <p className="text-xs text-gray-300 uppercase tracking-wider mb-1">
+      <p className="text-xs text-gray-300 text-center uppercase tracking-wider mb-1">
         Mystery track
       </p>
-      <p className="font-bold text-white text-sm leading-tight truncate">
-        ???
-      </p>
-      <p className="text-gray-300 text-xs mt-1 truncate">
-        ???
-      </p>
       <p className="mt-3 text-center text-2xl font-black text-white/20 tracking-widest">
-        ????
+        ?
       </p>
     </div>
   );

@@ -21,7 +21,7 @@ export default function Navbar() {
   const providerInfo = PROVIDER_LABELS[provider] ?? PROVIDER_LABELS.deezer;
 
   return (
-    <nav className="bg-darker border-b border-card px-6 py-3 flex items-center justify-between">
+    <nav className="bg-darker border-b border-card px-6 py-3 flex flex-col sm:flex-row items-center justify-between">
       <Link to="/" className="text-xl font-bold text-primary tracking-wide">
         🎵 Timeline
       </Link>
