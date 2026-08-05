@@ -10,6 +10,7 @@ import SongCard from '../components/game/SongCard';
 import Timeline from '../components/game/Timeline';
 import ScoreBoard from '../components/game/ScoreBoard';
 import RoundResult from '../components/game/RoundResult';
+import ChatPanel from '../components/chat/ChatPanel';
 import Loader from '../components/shared/Loader';
 import Button from '../components/shared/Button';
 import toast from 'react-hot-toast';
@@ -107,6 +108,13 @@ export default function GamePage() {
     </div>
   );
 
+  const sidePanel = (
+    <div className="flex flex-col gap-4">
+      <ScoreBoard players={players} />
+      <ChatPanel roomCode={roomCode} collapsible />
+    </div>
+  );
+
   if (!currentSong) {
     const waitingText = waitingForNext
       ? 'Waiting for other players…'
@@ -116,7 +124,10 @@ export default function GamePage() {
     return (
       <main className="max-w-5xl mx-auto px-4 py-6">
         {headerBar}
-        <Loader text={waitingText} />
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_240px] gap-6">
+          <Loader text={waitingText} />
+          {sidePanel}
+        </div>
       </main>
     );
   }
@@ -152,8 +163,8 @@ export default function GamePage() {
           </DndContext>
         </div>
 
-        {/* Right: scoreboard */}
-        <ScoreBoard players={players} />
+        {/* Right: scoreboard + chat */}
+        {sidePanel}
       </div>
 
       {/* Round result overlay */}

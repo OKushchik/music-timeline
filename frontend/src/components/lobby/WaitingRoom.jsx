@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useSocket } from '../../hooks/useSocket';
 import { EVENTS } from '../../utils/socketEvents';
 import Button from '../shared/Button';
+import ChatPanel from '../chat/ChatPanel';
 import toast from 'react-hot-toast';
 
 export default function WaitingRoom({ room: initialRoom, onLeave }) {
@@ -65,7 +66,7 @@ export default function WaitingRoom({ room: initialRoom, onLeave }) {
       </p>
 
       {/* Player list */}
-      <ul className="flex flex-col gap-2 mb-6">
+      <ul className="flex flex-col gap-2 mb-4">
         {room.players.map((p) => (
           <li key={p.userId} className="flex items-center justify-between bg-card rounded-lg px-4 py-2">
             <span className="text-white font-medium">
@@ -80,6 +81,10 @@ export default function WaitingRoom({ room: initialRoom, onLeave }) {
           </li>
         ))}
       </ul>
+
+      <div className="mb-6">
+        <ChatPanel roomCode={room.code} />
+      </div>
 
       <div className="flex gap-3">
         <Button variant={isReady ? 'secondary' : 'ghost'} fullWidth onClick={toggleReady}>
@@ -103,4 +108,3 @@ export default function WaitingRoom({ room: initialRoom, onLeave }) {
     </div>
   );
 }
-

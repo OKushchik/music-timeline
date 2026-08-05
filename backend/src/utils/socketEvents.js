@@ -8,6 +8,8 @@ const EVENTS = {
   REQUEST_SONG: 'request-song',
   PLACE_CARD:   'place-card',
   NEXT_ROUND:   'next-round',
+  SEND_CHAT:             'send-chat',
+  REQUEST_CHAT_HISTORY:  'request-chat-history',
 
   // Server → Client
   JOIN_SUCCESS:  'join-success',
@@ -20,6 +22,8 @@ const EVENTS = {
   ROUND_STARTED: 'round-started',
   GAME_OVER:     'game-over',
   NO_SONGS_LEFT: 'no-songs-left',
+  CHAT_MESSAGE:  'chat-message',
+  CHAT_HISTORY:  'chat-history',
   ERROR:         'error',
 };
 

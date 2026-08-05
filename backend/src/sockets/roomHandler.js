@@ -1,6 +1,7 @@
 const Room = require('../models/Room');
 const { EVENTS } = require('../utils/socketEvents');
 const { sendSongForRound } = require('./gameHandler');
+const { sendChatHistory, clearChat } = require('./chatHandler');
 
 const MIN_PLAYERS_TO_START = 1;
 
@@ -45,6 +46,7 @@ module.exports = (io, socket) => {
       socket.join(code);
       io.to(code).emit(EVENTS.ROOM_UPDATED, room);
       socket.emit(EVENTS.JOIN_SUCCESS, { room });
+      sendChatHistory(socket, code);
     } catch (err) {
       socket.emit(EVENTS.ERROR, { message: err.message });
     }
@@ -69,6 +71,7 @@ module.exports = (io, socket) => {
       // Only delete the room when it's still in the waiting lobby and everyone left.
       // A playing/finished room must stay alive so reconnecting players can rejoin.
       if (room.players.length === 0 && room.status === 'waiting') {
+        clearChat(code);
         await room.deleteOne();
       } else {
         await room.save();

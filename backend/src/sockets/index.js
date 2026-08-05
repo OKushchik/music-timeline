@@ -5,6 +5,8 @@ const User = require('../models/User');
 const Room = require('../models/Room');
 const roomHandler = require('./roomHandler');
 const gameHandler = require('./gameHandler');
+const chatHandler = require('./chatHandler');
+const { clearChat } = chatHandler;
 const { EVENTS } = require('../utils/socketEvents');
 
 let io;
@@ -37,6 +39,7 @@ const initSocket = (httpServer) => {
     console.log(`🔌 Socket connected: ${socket.user.username} (${socket.id})`);
     roomHandler(io, socket);
     gameHandler(io, socket);
+    chatHandler(io, socket);
 
     socket.on('disconnect', async (reason) => {
       console.log(`❌ Socket disconnected: ${socket.user.username} — ${reason}`);
@@ -60,6 +63,7 @@ const initSocket = (httpServer) => {
           const wasHost = room.host.toString() === socket.user._id.toString();
 
           if (room.players.length === 0) {
+            clearChat(room.code);
             await room.deleteOne();
             continue;
           }

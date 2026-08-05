@@ -2,6 +2,7 @@ const Room = require('../models/Room');
 const { validatePlacement, calculateScore, isGameOver, getWinners } = require('../services/gameService');
 const { getUnusedSongs, getSongById, withFreshPreview } = require('../services/songService');
 const { EVENTS } = require('../utils/socketEvents');
+const { clearChat } = require('./chatHandler');
 
 /**
  * Pick one unused song, mark it as current for the room, reset per-round flags,
@@ -149,6 +150,7 @@ const registerGameHandlers = (io, socket) => {
           players: room.players,
           winners: getWinners(room.players),
         });
+        clearChat(code);
         return;
       }
 
