@@ -3,7 +3,7 @@ const { EVENTS } = require('../utils/socketEvents');
 const { sendSongForRound } = require('./gameHandler');
 const { sendChatHistory, clearChat } = require('./chatHandler');
 
-const MIN_PLAYERS_TO_START = 1;
+const MIN_PLAYERS_TO_START = 2;
 
 /**
  * Socket events handled here:
@@ -121,9 +121,12 @@ module.exports = (io, socket) => {
       if (!hostPlayer?.isReady)
         return socket.emit(EVENTS.ERROR, { message: 'You must mark yourself as ready before starting' });
 
+      if (room.players.length < MIN_PLAYERS_TO_START)
+        return socket.emit(EVENTS.ERROR, { message: 'Need at least 2 players to start' });
+
       // Keep only ready players
       const readyPlayers = room.players.filter((p) => p.isReady);
-      if (readyPlayers.length < MIN_PLAYERS_TO_START)
+      if (readyPlayers.length < 1)
         return socket.emit(EVENTS.ERROR, { message: 'Need at least 1 ready player' });
 
       readyPlayers.forEach((p) => {

@@ -16,6 +16,9 @@ export default function WaitingRoom({ room: initialRoom, onLeave }) {
 
   const isHost =
     String(room?.host?._id || room?.host) === String(user?._id);
+  const playerCount = room?.players?.length ?? 0;
+  const hasEnoughPlayers = playerCount >= 2;
+  const canStart = isReady && hasEnoughPlayers;
 
   useEffect(() => {
     const offRoomUpdated = on(EVENTS.ROOM_UPDATED, (updated) => setRoom(updated));
@@ -94,10 +97,20 @@ export default function WaitingRoom({ room: initialRoom, onLeave }) {
           <Button
             fullWidth
             onClick={startGame}
-            disabled={!isReady}
-            title={!isReady ? 'You must be ready before starting' : ''}
+            disabled={!canStart}
+            title={
+              !hasEnoughPlayers
+                ? 'Need at least 2 players to start'
+                : !isReady
+                  ? 'You must be ready before starting'
+                  : ''
+            }
           >
-            {isReady ? '🚀 Start Game' : '🔒 Mark yourself ready first'}
+            {!hasEnoughPlayers
+              ? '🔒 Waiting for players (2+)'
+              : isReady
+                ? '🚀 Start Game'
+                : '🔒 Mark yourself ready first'}
           </Button>
         )}
       </div>
